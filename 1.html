@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+    <style type="text/css">
+        *{margin:0px; padding:0px;}
+        body{font-size:14px;}
+        #app{width:1000px; margin:10px auto;}
+        #bigImg{float:left; margin-right:10px;}
+        .item{
+            width:340px;
+            line-height:30px;
+            box-sizing: border-box;
+            background:#f7f7f7;
+            border:1px solid #f7f7f7;
+            margin:10px 0px;
+            float:left;
+        }
+        .item img{vertical-align:middle; margin-right:10px;}
+        .select{ border:1px solid darkred;}
+        #a{float: right;}
+    </style>
+</head>
+<body>
+<div id="app" >
+    <img  id="bigImg"  :src="ary[current].url">
+    <p>颜色选择</p>
+    <div v-for="(item,index) in ary" :key="index" @click="doClick(index)" :class="{'select':current==index}" id="a"><img :src="item.url"/>{{item.name}}</div>
+
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+
+                ary:[{name:'19秋季日系甜美软妹可爱蝴蝶结学院领星星刺绣网纱拼接大摆连衣裙',url:"https://gw.alicdn.com/bao/uploaded/TB1BtCMRQzoK1RjSZFlwu1i4VXa.png"},
+                    {name:'下半身玩消失下身下衣失踪短袖2019新款大t恤女宽松中长款上衣潮',url:"https://gw.alicdn.com/bao/uploaded/TB1Wlv7dMaH3KVjSZFjwu3FWpXa.png"}
+                ],
+
+                current:1
+            }
+        },
+        methods:{
+            doClick(index){
+                this.current = index
+            }
+
+        }
+    })
+</script>
+</body>
+</html>
