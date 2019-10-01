@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+    <link type="text/css" rel="stylesheet" href="reset.css"/>
+    <style type="text/css">
+        #cartTable{margin:30px auto; border-collapse: collapse;}
+        td,th{padding:5px 10px;}
+        .txtCnt{width:30px; margin:0px 5px;}
+        button{padding:5px;}
+        .total{font-size:18px; color:darkred; font-weight:800;}
+    </style>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <table border="1" cellspacing="0" id="cartTable" >
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="t" v-model="output" @change="handleChange">全选</th>
+            <th>商品序号</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品数量</th>
+            <th>商品单价</th>
+            <th>移出</th>
+        </tr>
+        </thead>
+        <tbody v-for="(item,index) in ary" :key="index">
+        <tr>
+            <td><input type="checkbox" id="hobby1" v-model="hobby" :value="item.value">选择</td>
+            <td>{{index+1}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>
+                <button class="cut" @click="jian(index)">- </button>
+                <span v-model="inputext">{{item.count}}</span>
+                <button class="add" @click="add(index)">+ </button>
+            </td>
+            <td>{{item.price}}</td>
+            <td><button @click="del(index)" value="删除">删除</button></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr v-show="!emptyCart"><!--购物车中有商品时显示-->
+            <td colspan="7">总价为：<span class="total">{{totalprice}}</span>元</td>
+        </tr>
+        <tr v-show="empty"><!--购物车中无商品时显示-->
+            <td colspan="7">此购物车中无商品</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                ary:[
+                    {id:'0001',name:'iphoneX',count:1,price:6188,value:1},
+                    {id:'0002',name:'华为p30',count:2,price:593,value:2},
+                    {id:'0003',name:'小米RedmiBook',count:3,price:4299,value:3},
+                    {id:'0004',name:'华为畅享9e',count:4,price:799,value:4}
+                ],
+                emptyCart:false,
+                totalPrice: 0,
+                output:false,
+                hobby:[]
+            }
+        },
+        methods: {
+            add(index) {
+                this.ary[index].count++;
+                this.count();
+            },
+            jian(index) {
+                if (this.ary[index].count > 0) {
+                    this.ary[index].count--
+                }
+            },
+            del(index) {
+                this.ary.splice(index, 1);
+                this.count();
+            },
+            handleChange(){
+                if (this.output) this.hobby=[1,2,3,4];
+                else this.hobby =[]
+            }
+        },
+        computed:{
+
+            totalprice() {
+                var count = 0;
+            //    ary.forEach(element => {
+            //        if (element.isChecked) {
+             //       count++;
+            //        totalPrice += element.price;
+            //    }
+           // }
+
+                if(hobby=true){
+                    this.ary.forEach(function (item) {
+                        count += item.count * item.price;
+                    })
+                    return count;
+                }else {
+                    count=0;
+                }
+
+
+            },
+            theHobbies(){
+                var h=0;
+                this.hobby.forEach(function(item){
+                    h+=parseInt(item);
+                })
+                return h;
+            }
+        },
+        watch:{
+            theHobbies(){
+                if (this.theHobbies ==10) this.output =true;
+                else  this.output =false;
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
